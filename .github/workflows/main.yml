@@ -32,32 +32,6 @@ jobs:
         id: check_vulnerabilities
         run: echo "::set-output name=has_vulnerabilities::$(cat trivy-results.sarif | jq '.runs[0].resources[] | select(.rules[] | .rule.name == "vulnerabilities") | .results | length > 0')"
 
-      - name: Send Slack notification
-        if: steps.check_vulnerabilities.outputs.has_vulnerabilities == 'true'
-        uses: slackapi/slack-github-action@v1.24.0
-        env:
-          SLACK_WEBHOOK_URL: ${{https://hooks.slack.com/services/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}}
-          MESSAGE: "Vulnerabilities found in the code. Scan report uploaded."
+      
 
-      - name: Build and push Docker image
-        if: steps.check_vulnerabilities.outputs.has_vulnerabilities == 'false'
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: docker.io/my-organization/my-app:${{ github.sha }}
-          build-args: |
-            ARG1=value1
-            ARG2=value2
-
-      - name: Sign image
-        if: steps.check_vulnerabilities.outputs.has_vulnerabilities == 'false'
-        run: cosign sign -key <path_to_key> docker.io/my-organization/my-app:${{ github.sha }}
-
-      - name: Notify success to Slack
-        if: steps.check_vulnerabilities.outputs.has_vulnerabilities == 'false'
-        run: echo "Success! No vulnerabilities found."
-
-      - name: Notify failure to Slack
-        if: steps.check_vulnerabilities.outputs.has_vulnerabilities == 'true'
-        run: echo "Fail! Vulnerabilities found."
+      
