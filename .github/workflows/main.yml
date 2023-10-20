@@ -8,6 +8,10 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -28,11 +32,12 @@ jobs:
         uses: slackapi/slack-github-action@v1.24.0
         with:
          slack_text: |
-          $(cat trivy-results.sarif)
-        env:
-            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-            SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
-            SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+              $(cat trivy-results.sarif)
+        
+        
+      
+                    
+        
         
             
 
