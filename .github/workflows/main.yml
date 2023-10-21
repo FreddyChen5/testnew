@@ -36,6 +36,7 @@ jobs:
       - name: build and push
         run: |
          docker build -t app .
+         docker push freddychen5/testnew
          docker login -u ${{secrets.DOCKERHUB_USERNAME}} -p ${{secrets.DOCKERHUB_TOKEN}}
          docker tag app freddychen5/testnew
 
