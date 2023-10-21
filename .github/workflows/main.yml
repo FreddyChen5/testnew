@@ -39,13 +39,7 @@ jobs:
          doker login -u ${{secrets.DOCKERHUB_USERNAME}} -p ${{secrets.DOCKERHUB_TOKEN}}
          doker tag app freddychen5/testnew
 
-      - name: Sign Docker Image
-        run: cosign sign -key cosign.key testnew:latest
- 
-      - name: Push Signed Image
-        run: |
-           echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{secrets.DOCKERHUB_TOKEN}}
-           docker push testnew:latest
+      
          
                     
         
