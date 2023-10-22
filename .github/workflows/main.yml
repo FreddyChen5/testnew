@@ -23,20 +23,15 @@ jobs:
           image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
           format: 'table'
           output: 'trivy-results.txt'
-
-
-      - name: slack-upload
+          
+      - name: Upload Scan Results
+        if: steps.Run Trivy vulnerability scanner.output.trivy-results.txt == 'true'
         uses: MeilCli/slack-upload-file@v3
         with:
-            slack_token: ${{ secrets.SLACK_TOKEN }}
-            channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-            file_path: 'trivy-results.txt'
-            initial_comment: 'post by slack-upload-file'
-
-      - name: Docker build
-        run: |
-         doker login -u ${{secrets.DOCKERHUB_USERNAME}} -p ${{secrets.DOCKERHUB_TOKEN}}
-         doker build -t docker.io/freddychen5/testnew
+          slack_token: ${{ secrets.SLACK_TOKEN }}
+          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+          file_path: 'trivy-results.txt'
+          initial_comment: 'post by slack-upload-file'
 
 
          
