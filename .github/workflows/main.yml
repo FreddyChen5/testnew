@@ -21,8 +21,8 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
-          format: 'table'
-          output: 'trivy-results.txt'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
 
 
       - name: slack-upload
@@ -30,5 +30,32 @@ jobs:
         with:
             slack_token: ${{ secrets.SLACK_TOKEN }}
             channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-            file_path: './trivy-results.txt'
+            file_path: 'trivy-results.sarif'
             initial_comment: 'post by slack-upload-file'
+
+
+
+      - name: Check Trivy Scan Results
+        run: |
+          if test -s trivy-results.sarif; then
+            echo "Trivy found vulnerabilities."
+            exit 1
+          else
+            echo "No vulnerabilities found. Proceeding with Docker build."
+          fi
+
+         
+      - name: build and push
+        run: |
+         doker login -u ${{secrets.DOCKERHUB_USERNAME}} -p ${{secrets.DOCKERHUB_TOKEN}}
+         doker build -t docker.io/freddychen5/testnew
+
+
+         
+                    
+        
+        
+            
+
+          
+
