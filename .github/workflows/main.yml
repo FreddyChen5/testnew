@@ -46,6 +46,16 @@ jobs:
           push: true
           tags: |
             docker.io/freddychen5/testnew:${{ github.sha }}
+
+      - name: Sign Docker Image
+        run: cosign sign -key /Users/freddy/Downloads/fortunes01/cosign.key  docker.io/freddychen5/testnew:${{ github.sha }}
+      - name: Push Signed Image
+        run: docker push docker.io/freddychen5/testnew:${{ github.sha }}
+
+      - name: Push Signed Image
+        run: docker push docker.io/freddychen5/testnew:${{ github.sha }}
+
+
     
 
 
