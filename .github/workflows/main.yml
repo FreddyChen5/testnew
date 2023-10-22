@@ -55,14 +55,14 @@ jobs:
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2.1.0
         with:
-          registry: ghcr.io
+          registry: FreddyChen5/testnew.git
           username: ${{ github.FreddyChen5}}
           password: ${{ secrets.KEY }}
 
       - id: docker_meta
         uses: docker/metadata-action@v4.4.0
         with:
-         images: ghcr.io/sigstore/sample-honk
+         images: FreddyChen5/testnew.git/sigstore/sample-honk
          tags: type=sha,format=long
   
       - name: Build and Push container images
