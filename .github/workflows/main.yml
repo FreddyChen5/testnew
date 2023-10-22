@@ -27,7 +27,6 @@ jobs:
             severity: 'CRITICAL'
           
       - name: Upload Scan Results
-        if: steps.Build.output.trivy-results.txt == 'true'
         uses: MeilCli/slack-upload-file@v3
         with:
           slack_token: ${{ secrets.SLACK_TOKEN }}
