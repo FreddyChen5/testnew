@@ -17,12 +17,14 @@ jobs:
         run: |
           docker build -t docker.io/my-organization/my-app:${{ github.sha }} .
 
-      - name: Run Trivy vulnerability scanner
+      - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
-          format: 'table'
-          output: 'trivy-results.txt'
+            scan-type: 'fs'
+            ignore-unfixed: true
+            format: 'table'
+            output: 'trivy-results.table'
+            severity: 'CRITICAL'
           
       - name: Upload Scan Results
         if: steps.Build.output.trivy-results.txt == 'true'
@@ -48,7 +50,7 @@ jobs:
             docker.io/freddychen5/testnew:${{ github.sha }}
 
       - name: Sign Docker Image
-        run: cosign sign -key /Users/freddy/Downloads/fortunes01/cosign.key  docker.io/freddychen5/testnew:${{ github.sha }}
+        run: cosign sign -key :${{ secrets.COSIGN_KEY }}  docker.io/freddychen5/testnew:${{ github.sha }}
       - name: Push Signed Image
         run: docker push docker.io/freddychen5/testnew:${{ github.sha }}
 
