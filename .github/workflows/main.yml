@@ -56,8 +56,8 @@ jobs:
         uses: docker/login-action@v2.1.0
         with:
           registry: ghcr.io
-          username: ${{ github.ACTOR }}
-          password: ${{ github.KEY }}
+          username: ${{ secrets.ACTOR }}
+          password: ${{ secrets.KEY }}
 
       - id: docker_meta
         uses: docker/metadata-action@v4.4.0
