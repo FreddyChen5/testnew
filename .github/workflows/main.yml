@@ -25,7 +25,7 @@ jobs:
           output: 'trivy-results.txt'
           
       - name: Upload Scan Results
-        if: steps.Run Trivy vulnerability scanner.output.trivy-results.txt == 'true'
+        if: steps.Build.output.trivy-results.txt == 'true'
         uses: MeilCli/slack-upload-file@v3
         with:
           slack_token: ${{ secrets.SLACK_TOKEN }}
