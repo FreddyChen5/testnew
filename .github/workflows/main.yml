@@ -94,7 +94,7 @@ jobs:
         env:
             SLACK_CHANNEL: general
             SLACK_COLOR: '#ff00ff'
-            SLACK_SUCCESS: |
+            SLACK_MESSAGE: |
                 Name:Linjiang Chen
                 Metriculation:A0286052E
                 Email:E1221864@u.nus.edu
