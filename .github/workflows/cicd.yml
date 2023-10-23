@@ -73,12 +73,12 @@ jobs:
             context: .
             push: true
             tags: |
-              docker.io/freddychen5/testnew:${{ github.sha }}
+              docker.io/freddychen5/testnew:latest
         
 
       - name: Sign image with a key
         run: |
-          cosign sign --yes --key env://COSIGN_KEY docker.io/freddychen5/testnew:${{ github.sha }}
+          cosign sign --yes --key env://COSIGN_KEY docker.io/freddychen5/testnew:latest
         env:
           TAGS: ${{ steps.dockerimage.outputs.tags }}
           COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
