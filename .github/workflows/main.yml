@@ -25,6 +25,12 @@ jobs:
             format: 'table'
             output: 'trivy-results.table'
             severity: 'CRITICAL'
+
+      - name: Send GitHub Action trigger data to Slack workflow
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        env:
+         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           
       - name: Upload Scan Results
         uses: MeilCli/slack-upload-file@v3
@@ -75,6 +81,12 @@ jobs:
           COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
           DIGEST: ${{ steps.dockerimage.outputs.digest }}
+
+      - name: Send GitHub Action trigger data to Slack workflow
+        id: slacksuccess
+        uses: slackapi/slack-github-action@v1.24.0
+        env:
+         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
 
     
