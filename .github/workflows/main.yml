@@ -26,14 +26,6 @@ jobs:
             output: 'trivy-results.table'
             severity: 'CRITICAL'
 
-      - name: Post to a Slack channel
-        id: slack
-        uses: slackapi/slack-github-action@v1.24.0
-        with:           
-         channel-id: 'SLACK_CHANNEL_ID'
-         slack-message: "GitHub build result: failure \n${{ github.event.head_commit.url }}"
-         env:
-         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           
       - name: Upload Scan Results
         uses: MeilCli/slack-upload-file@v3
@@ -91,7 +83,7 @@ jobs:
         with:           
            channel-id: 'SLACK_CHANNEL_ID'
            slack-message: "GitHub build result: failure \n${{ github.event.head_commit.url }}"
-           env:
+        env:
            SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
 
 
