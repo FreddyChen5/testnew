@@ -26,14 +26,6 @@ jobs:
             output: 'trivy-results.txt'
             severity: 'HIGH,CRITICAL'
 
-      - name: Post to a Slack channel
-        id: slack
-        uses: slackapi/slack-github-action@v1.24.0
-        with:           
-         SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
-         slack-message: "GitHub build result: failure \n${{ github.event.head_commit.url }}"
-        env:
-         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
          
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
