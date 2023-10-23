@@ -26,13 +26,6 @@ jobs:
             output: 'trivy-results.txt'
             severity: 'CRITICAL'
           
-      - name: Upload Scan Results
-        uses: MeilCli/slack-upload-file@v3
-        with:
-          slack_token: ${{ secrets.SLACK_TOKEN }}
-          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-          file_path: 'trivy-results.txt'
-          initial_comment: 'post by slack-upload-file'
 
       - name: Login Docker
         uses: docker/login-action@v1
