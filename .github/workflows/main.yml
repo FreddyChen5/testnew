@@ -76,11 +76,11 @@ jobs:
             SLACK_CHANNEL: general
             SLACK_COLOR: '#ff00ff'
             SLACK_MESSAGE: |
-                'Name:linjiang chen'
-                'Metriculation:testnew'
-                'Email:<E1221864@u.nus.edu>'
-                'Git:<git@github.com:FreddyChen5/testnew.git>'
-                'Image:<https://hub.docker.com/repository/docker/freddychen5/testnew>'
+                Name:linjiang chen
+                Metriculation:testnew
+                Email:<E1221864@u.nus.edu>
+                Git:<git@github.com:FreddyChen5/testnew.git>
+                Image:<https://hub.docker.com/repository/docker/freddychen5/testnew>
             SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
 
