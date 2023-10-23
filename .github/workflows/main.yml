@@ -26,6 +26,14 @@ jobs:
             output: 'trivy-results.table'
             severity: 'CRITICAL'
 
+      - name: Post to a Slack channel
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:           
+         channel-id: 'SLACK_CHANNEL_ID'
+         slack-message: "GitHub build result: failure \n${{ github.event.head_commit.url }}"
+        env:
+         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           
       - name: Upload Scan Results
         uses: MeilCli/slack-upload-file@v3
@@ -77,14 +85,19 @@ jobs:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
           DIGEST: ${{ steps.dockerimage.outputs.digest }}
 
-      - name: Post to a Slack channel
-        id: slacksuccess
-        uses: slackapi/slack-github-action@v1.24.0
-        with:           
-           channel-id: 'SLACK_CHANNEL_ID'
-           slack-message: "GitHub build result: failure \n${{ github.event.head_commit.url }}"
+       
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
         env:
-           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+            SLACK_CHANNEL: general
+            SLACK_COLOR: '#ff00ff'
+            SLACK_MESSAGE: |
+                'Name:linjiang Chen'
+                'Metriculation:'
+                'Email:E1221864@u.nus.edu'
+                'Git:git@github.com:FreddyChen5/testnew.git'
+                'Image:https://hub.docker.com/repository/docker/freddychen5/testnew'
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
 
     
