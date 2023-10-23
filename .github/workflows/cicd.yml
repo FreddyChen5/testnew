@@ -2,7 +2,7 @@ name: build
 on:
   push:
     branches:
-      - main
+      - 'v[0-9]+.[0-9]+'
   pull_request:
 jobs:
   build:
@@ -13,9 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Build an image from Dockerfile
-        run: |
-          docker build -t docker.io/my-organization/my-app:${{ github.sha }} .
+      - name: Check commit message
+        id: check_commit_message
+        run: echo "::set-output name=run_workflow::$(if [[ $(git log --format=%B -n 1 ${{ github.sha }}) == '#NORUN'* ]]; then echo 'false'; else echo 'true'; fi)"
 
       - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@master
@@ -24,19 +24,22 @@ jobs:
             ignore-unfixed: true
             format: 'table'
             output: 'trivy-results.txt'
-            severity: 'CRITICAL'
+            severity: 'CRITICAL,HIGH'
+            exit-code: 1
 
       - name: Post to a Slack channel
-        id: slack
-        uses: slackapi/slack-github-action@v1.24.0
-        with:           
-         channel-id: 'SLACK_CHANNEL_ID'
-         slack-message: "GitHub build result: failure \n${{ github.event.head_commit.url }}"
+        uses: rtCamp/action-slack-notify@v2
+        if: failure()
         env:
-         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+            SLACK_CHANNEL: general
+            SLACK_COLOR: '#ff00ff'
+            SLACK_MESSAGE: |
+                'Failure'
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           
       - name: Upload Scan Results
         uses: MeilCli/slack-upload-file@v3
+        if: failure()
         with:
           slack_token: ${{ secrets.SLACK_TOKEN }}
           channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
@@ -91,13 +94,14 @@ jobs:
         env:
             SLACK_CHANNEL: general
             SLACK_COLOR: '#ff00ff'
-            SLACK_SUCCESS: |
+            SLACK_MESSAGE: |
                 Name:Linjiang Chen
                 Metriculation:A0286052E
                 Email:E1221864@u.nus.edu
-                Git:https://github.com/FreddyChen5/testnew.git
+                Git:https://github.com/${{github.repository}}/tree/v1.1
                 Image:https://hub.docker.com/repository/docker/freddychen5/testnew
             SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+            
 
 
     
