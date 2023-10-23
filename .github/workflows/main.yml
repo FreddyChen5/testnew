@@ -24,7 +24,7 @@ jobs:
             ignore-unfixed: true
             format: 'table'
             output: 'trivy-results.txt'
-            severity: 'CRITICAL''HIGH'
+            severity: 'HIGH,CRITICAL'
 
       - name: Post to a Slack channel
         id: slack
