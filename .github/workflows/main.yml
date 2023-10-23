@@ -26,11 +26,14 @@ jobs:
             output: 'trivy-results.table'
             severity: 'CRITICAL'
 
-      - name: Send GitHub Action trigger data to Slack workflow
+      - name: Post to a Slack channel
         id: slack
         uses: slackapi/slack-github-action@v1.24.0
-        env:
-         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:           
+         channel-id: 'SLACK_CHANNEL_ID'
+         slack-message: "GitHub build result: failure \n${{ github.event.head_commit.url }}"
+         env:
+         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           
       - name: Upload Scan Results
         uses: MeilCli/slack-upload-file@v3
@@ -82,11 +85,14 @@ jobs:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
           DIGEST: ${{ steps.dockerimage.outputs.digest }}
 
-      - name: Send GitHub Action trigger data to Slack workflow
+      - name: Post to a Slack channel
         id: slacksuccess
         uses: slackapi/slack-github-action@v1.24.0
-        env:
-         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:           
+           channel-id: 'SLACK_CHANNEL_ID'
+           slack-message: "GitHub build result: failure \n${{ github.event.head_commit.url }}"
+           env:
+           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
 
 
     
