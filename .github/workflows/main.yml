@@ -30,7 +30,7 @@ jobs:
         id: slack
         uses: slackapi/slack-github-action@v1.24.0
         with:           
-         channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+         SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
          slack-message: "GitHub build result: failure \n${{ github.event.head_commit.url }}"
         env:
          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
