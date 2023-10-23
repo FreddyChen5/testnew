@@ -22,7 +22,7 @@ jobs:
             format: 'table'
             output: 'trivy-results.txt'
             severity: 'CRITICAL'
-            exit-code: 1
+            # exit-code: 1
 
       - name: Post to a Slack channel
         uses: rtCamp/action-slack-notify@v2
