@@ -21,8 +21,8 @@ jobs:
             ignore-unfixed: true
             format: 'table'
             output: 'trivy-results.txt'
-            severity: 'CRITICAL'
-            # exit-code: 1
+            severity: 'HIGH,CRITICAL'
+            exit-code: 1
 
       - name: Post to a Slack channel
         uses: rtCamp/action-slack-notify@v2
